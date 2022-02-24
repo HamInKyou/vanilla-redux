@@ -1,23 +1,18 @@
+import { createStore } from "redux";
+
 const $plus = document.querySelector("#plus");
 const $minus = document.querySelector("#minus");
 const $number = document.querySelector("span");
 
-let count = 0;
-$number.innerText = count;
+//reducer : state를 변경하는 함수!
+//reducer가 리턴하는건 업데이트 완료된 state
+const countReducer = (state = 0) => {
+  //여기서 state 업데이트하고
 
-const updateText = () => {
-  $number.innerText = count;
+  return state; //업데이트된 state 리턴!
 };
 
-const handlePlus = () => {
-  count++;
-  updateText();
-};
+//createStore = state를 관리하는 공간을 만들어줌
+const countStore = createStore(countReducer); //인자로 리듀서 들어가야해
 
-const handleMinus = () => {
-  count--;
-  updateText();
-};
-
-$plus.addEventListener("click", handlePlus);
-$minus.addEventListener("click", handleMinus);
+console.log(countStore.getState()); //state를 가져온다!
