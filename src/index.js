@@ -20,6 +20,16 @@ const countReducer = (state = 0, action) => {
 //createStore = state를 관리하는 공간을 만들어줌
 const countStore = createStore(countReducer); //인자로 리듀서 들어가야해
 
-console.log(countStore.getState()); //state를 가져온다!
-countStore.dispatch({ type: "PLUS" }); //store에 업데이트 요청!
-console.log(countStore.getState()); //state를 가져온다!
+//subscribe는 우리가 store 안에 있는 변화들을 알 수 있게 해준다.
+//변화를 인지하면 콜백함수 실행하게!
+countStore.subscribe(() => {
+  $number.innerText = countStore.getState();
+});
+
+$plus.addEventListener("click", () => {
+  countStore.dispatch({ type: "PLUS" });
+});
+
+$minus.addEventListener("click", () => {
+  countStore.dispatch({ type: "MINUS" });
+});
