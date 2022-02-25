@@ -14,7 +14,7 @@ const DELETE_TODO = "DELETE_TODO";
 const todoReducer = (state = [], action) => {
   switch (action.type) {
     case ADD_TODO:
-      return [...state, { text: action.payload, id: Date.now() }];
+      return [{ text: action.payload, id: Date.now() }, ...state];
     case DELETE_TODO:
       return [];
     default:
@@ -24,13 +24,27 @@ const todoReducer = (state = [], action) => {
 
 const todoStore = createStore(todoReducer);
 
+//toDo 생성
+const addToDo = (text) => {
+  todoStore.dispatch({ type: ADD_TODO, payload: text });
+};
 $form.addEventListener("submit", (event) => {
   event.preventDefault();
   const toDo = $input.value;
   $input.value = "";
-  todoStore.dispatch({ type: ADD_TODO, payload: toDo });
+  addToDo(toDo);
 });
 
-todoStore.subscribe(() => {
-  console.log(todoStore.getState());
-});
+//toDo 렌더링
+const paintToDo = () => {
+  const toDos = todoStore.getState();
+  $ul.innerHTML = "";
+  toDos.forEach((toDo) => {
+    const $li = document.createElement("li");
+    $li.id = toDo.id;
+    $li.innerText = toDo.text;
+    $ul.appendChild($li);
+  });
+};
+
+todoStore.subscribe(paintToDo);
