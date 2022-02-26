@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { connect } from "react-redux";
+import ToDO from "../components/ToDo";
 import { actionCreators } from "../store";
 
 function Home({ toDos, addToDo }) {
@@ -19,7 +20,11 @@ function Home({ toDos, addToDo }) {
         <input type="text" value={text} onChange={onChange} />
         <button>Add</button>
       </form>
-      <ul>{JSON.stringify(toDos)}</ul>
+      <ul>
+        {toDos.map((toDo) => (
+          <ToDO key={toDo.id} {...toDo} />
+        ))}
+      </ul>
     </>
   );
 }
@@ -32,7 +37,9 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
-  return { addToDo: (text) => dispatch(actionCreators.addToDo(text)) };
+  return {
+    addToDo: (text) => dispatch(actionCreators.addToDo(text)),
+  };
 }
 
 //connect함수를 쓰면 컴포넌트로 보내는 props에 위 함수에서 리턴한 것들 props로 추가할 수 있게 해준다!

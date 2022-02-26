@@ -12,7 +12,7 @@ export const addToDo = (text) => {
 export const deleteToDo = (id) => {
   return {
     type: DELETE,
-    payload: id,
+    payload: parseInt(id),
   };
 };
 
@@ -21,7 +21,7 @@ const reducer = (state = [], action) => {
     case ADD:
       return [{ text: action.payload, id: Date.now() }, ...state];
     case DELETE:
-      return state.filter((toDo) => toDo !== action.payload);
+      return state.filter((toDo) => toDo.id !== action.payload);
     default:
       return state;
   }
